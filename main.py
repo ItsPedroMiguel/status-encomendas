@@ -19,8 +19,6 @@ st.markdown("""
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
         header {visibility: hidden;}
-        .stActionButton.st-bj.st-bn.st-b3.st-b4.st-b5 {visibility: hidden;} /* botão feedback */
-        .viewerBadge_container__1QSob {visibility: hidden;}  /* ícone inferior direito */
     </style>
 """, unsafe_allow_html=True)
 
