@@ -14,6 +14,15 @@ st.set_page_config(page_title="Status de Encomendas", page_icon="📦", layout="
 st.header("Atualizar Estado de Encomendas")
 st.subheader("Woody Parfum")
 
+st.markdown("""
+    <style>
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
+    </style>
+""", unsafe_allow_html=True)
+
+
 id_encomenda = st.text_input("Digite o número da encomenda")
 
 if id_encomenda:
