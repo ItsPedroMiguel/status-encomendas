@@ -39,7 +39,7 @@ if id_encomenda:
             ''')
 
             estados = [
-                "envio-ctt", "completed"
+                "envio-ctt", "completed", "levantar-loja"
             ]
             default_idx = estados.index(encomenda['status']) if encomenda['status'] in estados else 0
             novo_estado = st.selectbox("Selecione o novo estado", estados, index=default_idx)
