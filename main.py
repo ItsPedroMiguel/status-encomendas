@@ -10,9 +10,9 @@ wcapi = API(
     version="wc/v3"
 )
 
-st.set_page_config(page_title="Status de Encomendas", page_icon="📦", layout="wide")
+st.set_page_config(page_title="APP Estado de Encomendas", page_icon="📦", layout="wide")
 st.header("Atualizar Estado de Encomendas")
-st.subheader("Woody Parfum")
+st.subheader(st.secrets["dados_cliente"]["nome"])
 
 st.markdown("""
     <style>
@@ -33,16 +33,24 @@ if id_encomenda:
 
             st.subheader(f"Encomenda #{id_encomenda}")
             st.markdown(f'''
-            **Cliente:** {encomenda['billing']['first_name']} {encomenda['billing']['last_name']}
-            **Data de Criação:** {encomenda['date_created']}
+            **Cliente:** {encomenda['billing']['first_name']} {encomenda['billing']['last_name']}\n
+            **Data de Criação:** {encomenda['date_created']}\n
             **Estado da Actual:** {encomenda['status']}
             ''')
 
             estados = [
-                "envio-ctt", "completed", "levantar-loja"
+                "envio-ctt", "levantar-loja", "completed", "envio-avaliacao", "finalizada"
             ]
+            rotulos = {
+                "envio-ctt": "Enviar para os CTT",
+                "levantar-loja": "Disponível para Levantamento na Loja",
+                "completed": "Entregue ao Cliente",
+                "envio-avaliacao": "Enviar Pedido de Avaliação da Compra",
+                "finalizada": "Avaliação Recebida"
+            }
             default_idx = estados.index(encomenda['status']) if encomenda['status'] in estados else 0
-            novo_estado = st.selectbox("Selecione o novo estado", estados, index=default_idx)
+
+            novo_estado = st.selectbox("Selecione o novo estado", estados, index=default_idx, format_func=lambda code: rotulos.get(code, code))
 
             if st.button("Atualizar Estado"):
                 update_estado = {"status": novo_estado}
@@ -53,11 +61,8 @@ if id_encomenda:
                     st.error(f"Falha ao atualizar estado da encomenda: {upd_resposta.status_code} - {upd_resposta.text}")
 
         else:
-            st.error("Encomenda não encontrada. Confirme o número da encomenda e tente novamente")
+            st.error("Encomenda não encontrada. Confirme o número da encomenda e tente novamente.")
     except Exception as e:
         st.error(f"Erro na requisição: {e}")
-else:
-    st.info("Digite o número da encomenda para carregar detalhes")
 
 st.markdown("---")
-
